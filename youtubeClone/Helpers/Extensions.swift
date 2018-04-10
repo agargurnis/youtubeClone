@@ -104,8 +104,18 @@ class CustomImageView: UIImageView {
                 imageCache.setObject(imageToCache!, forKey: urlString as AnyObject)
             }
         }).resume()
-        
     }
+}
 
+class SafeJsonObject: NSObject {
+    override func setValue(_ value: Any?, forKey key: String) {
+        if self.responds(to: NSSelectorFromString(key)) {
+            super.setValue(value, forKey: key)
+        }
+    }
     
+    init(_ dictionary: [String: Any]){
+        super.init()
+        setValuesForKeys(dictionary)
+    };
 }

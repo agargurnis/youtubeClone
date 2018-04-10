@@ -8,13 +8,27 @@
 
 import UIKit
 
-class Video: NSObject {
+class Video: SafeJsonObject {
     
-    var thumbnailImageName: String?
-    var title: String?
-    var numberOfViews: NSNumber?
-    var uploadDate: NSDate?
+    @objc var thumbnail_image_name: String?
+    @objc var title: String?
+    @objc var number_of_views: NSNumber?
+    @objc var uploadDate: NSDate?
+    @objc var duration: NSNumber?
     
-    var channel: Channel?
+    @objc var channel: Channel?
+    
+    override func setValue(_ value: Any?, forKey key: String) {
+        if key == "channel" {
+            self.channel = Channel(value as! [String: AnyObject])
+        } else {
+            super.setValue(value, forKey: key)
+        }
+    }
+    
+    init(dictionary: [String: Any]) {
+        super.init(dictionary)
+        setValuesForKeys(dictionary)
+    }
     
 }
